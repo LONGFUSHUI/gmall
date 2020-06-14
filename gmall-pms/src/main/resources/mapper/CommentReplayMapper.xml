@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.pms.dao.CommentReplayMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.gmall.pms.entity.CommentReplayEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="reply_id" jdbcType="BIGINT" property="replyId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from pms_comment_replay
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.gmall.pms.entity.CommentReplayEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pms_comment_replay (comment_id, reply_id)
+    values (#{commentId,jdbcType=BIGINT}, #{replyId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.gmall.pms.entity.CommentReplayEntity">
+    update pms_comment_replay
+    set comment_id = #{commentId,jdbcType=BIGINT},
+      reply_id = #{replyId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, comment_id, reply_id
+    from pms_comment_replay
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, comment_id, reply_id
+    from pms_comment_replay
+  </select>
+</mapper>

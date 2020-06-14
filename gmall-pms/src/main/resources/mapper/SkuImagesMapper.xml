@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.pms.dao.SkuImagesMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.gmall.pms.entity.SkuImagesEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sku_id" jdbcType="BIGINT" property="skuId" />
+    <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
+    <result column="img_sort" jdbcType="INTEGER" property="imgSort" />
+    <result column="default_img" jdbcType="INTEGER" property="defaultImg" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from pms_sku_images
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.gmall.pms.entity.SkuImagesEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pms_sku_images (sku_id, img_url, img_sort, 
+      default_img)
+    values (#{skuId,jdbcType=BIGINT}, #{imgUrl,jdbcType=VARCHAR}, #{imgSort,jdbcType=INTEGER}, 
+      #{defaultImg,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.gmall.pms.entity.SkuImagesEntity">
+    update pms_sku_images
+    set sku_id = #{skuId,jdbcType=BIGINT},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      img_sort = #{imgSort,jdbcType=INTEGER},
+      default_img = #{defaultImg,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, sku_id, img_url, img_sort, default_img
+    from pms_sku_images
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, sku_id, img_url, img_sort, default_img
+    from pms_sku_images
+  </select>
+</mapper>
