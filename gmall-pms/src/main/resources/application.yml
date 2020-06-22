@@ -15,5 +15,8 @@ spring:
     host: 127.0.0.1
 
 mybatis-plus:
-    mapper-locations: mapper/*Mapper.xml
+    global-config:
+      db-config:
+        id-type: auto
+    mapper-locations: mapper/pms/*.xml
     configuration.cache-enabled: false
