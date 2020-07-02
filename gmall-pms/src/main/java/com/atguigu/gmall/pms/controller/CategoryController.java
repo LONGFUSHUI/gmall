@@ -1,7 +1,9 @@
 package com.atguigu.gmall.pms.controller;
 
 import java.util.Arrays;
+import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.java.core.bean.PageVo;
 import com.java.core.bean.QueryCondition;
 import com.java.core.bean.Resp;
@@ -16,15 +18,34 @@ import com.atguigu.gmall.pms.service.CategoryService;
 
 /**
  * 商品三级分类
+ *
  * @author liuzhanhong
- * @since  2020-06-22 16:45:43
+ * @since 2020-06-22 16:45:43
  */
 @Api(tags = "商品三级分类 管理")
 @RestController
 @RequestMapping("pms/category")
 public class CategoryController {
+
     @Autowired
     private CategoryService categoryService;
+
+    @GetMapping
+    public Resp<List<Category>> queryCategoriesByPidOrLevel(@RequestParam(value = "level", defaultValue = "0") Integer level,
+                                                            @RequestParam(value = "parentCid", required = false) Long pid) {
+        QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+        if (level != 0) {
+            queryWrapper.eq("cat_level", level);
+        }
+        if (pid != null) {
+            queryWrapper.eq("parent_cid", pid);
+        }
+
+        List<Category> list = categoryService.list(queryWrapper);
+
+        return Resp.ok(list);
+    }
+
 
     /**
      * 列表
@@ -45,8 +66,8 @@ public class CategoryController {
     @ApiOperation("详情查询")
     @GetMapping("/info/{catId}")
     @PreAuthorize("hasAuthority('pms:category:info')")
-    public Resp<Category> info(@PathVariable("catId") Long catId){
-		Category category = categoryService.getById(catId);
+    public Resp<Category> info(@PathVariable("catId") Long catId) {
+        Category category = categoryService.getById(catId);
 
         return Resp.ok(category);
     }
@@ -57,8 +78,8 @@ public class CategoryController {
     @ApiOperation("保存")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('pms:category:save')")
-    public Resp<Object> save(@RequestBody Category category){
-		categoryService.save(category);
+    public Resp<Object> save(@RequestBody Category category) {
+        categoryService.save(category);
 
         return Resp.ok(null);
     }
@@ -69,8 +90,8 @@ public class CategoryController {
     @ApiOperation("修改")
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('pms:category:update')")
-    public Resp<Object> update(@RequestBody Category category){
-		categoryService.updateById(category);
+    public Resp<Object> update(@RequestBody Category category) {
+        categoryService.updateById(category);
 
         return Resp.ok(null);
     }
@@ -81,8 +102,8 @@ public class CategoryController {
     @ApiOperation("删除")
     @PostMapping("/delete")
     @PreAuthorize("hasAuthority('pms:category:delete')")
-    public Resp<Object> delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+    public Resp<Object> delete(@RequestBody Long[] catIds) {
+        categoryService.removeByIds(Arrays.asList(catIds));
 
         return Resp.ok(null);
     }

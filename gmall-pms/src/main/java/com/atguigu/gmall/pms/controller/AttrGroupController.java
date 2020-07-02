@@ -1,7 +1,7 @@
 package com.atguigu.gmall.pms.controller;
 
-import java.util.Arrays;
-
+import com.atguigu.gmall.pms.entity.AttrGroup;
+import com.atguigu.gmall.pms.service.AttrGroupService;
 import com.java.core.bean.PageVo;
 import com.java.core.bean.QueryCondition;
 import com.java.core.bean.Resp;
@@ -11,13 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import com.atguigu.gmall.pms.entity.AttrGroup;
-import com.atguigu.gmall.pms.service.AttrGroupService;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 /**
  * 属性分组
  * @author liuzhanhong
  * @since  2020-06-22 16:45:43
+ *
  */
 @Api(tags = "属性分组 管理")
 @RestController
@@ -25,6 +27,15 @@ import com.atguigu.gmall.pms.service.AttrGroupService;
 public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
+
+    @GetMapping("/{catId}")
+    public Resp<PageVo> queryGroupByPage(QueryCondition queryCondition, @PathVariable("catId") Long catId){
+
+        PageVo pageVo=attrGroupService.queryGroupByPage(queryCondition,catId);
+
+        return Resp.ok(pageVo);
+
+    }
 
     /**
      * 列表

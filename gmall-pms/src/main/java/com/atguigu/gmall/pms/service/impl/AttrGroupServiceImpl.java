@@ -1,5 +1,6 @@
 package com.atguigu.gmall.pms.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -22,7 +23,24 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroup> i
                 new QueryWrapper<>()
         );
 
+//        IPage<AttrGroup> groupPage = new Page<>(1,2);
+//
+//        QueryWrapper<AttrGroup> wrapper = new QueryWrapper<>();
+//
+//        IPage<AttrGroup> page1 = this.page(groupPage, wrapper);
+
+//        this.page(groupPage);
+
+
         return new PageVo(page);
+    }
+
+    @Override
+    public PageVo queryGroupByPage(QueryCondition queryCondition, Long catId) {
+
+        IPage<AttrGroup> page = this.page(new Query<AttrGroup>().getPage(queryCondition), new QueryWrapper<AttrGroup>());
+
+        return null;
     }
 
 }

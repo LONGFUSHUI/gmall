@@ -14,5 +14,7 @@ import com.java.core.bean.QueryCondition;
 public interface AttrGroupService extends IService<AttrGroup> {
 
     PageVo queryPage(QueryCondition params);
+
+    PageVo queryGroupByPage(QueryCondition queryCondition, Long catId);
 }
 
